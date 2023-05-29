@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:33:01 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/05/27 21:58:43 by osajide          ###   ########.fr       */
+/*   Updated: 2023/05/29 18:43:10 by ayakoubi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	minishell(void)
 {
 	char	*line;
 	t_list	*lst;
-
+	t_cmd	*cmd;
+	
 	lst = NULL;
     sleep(1);
 	while (1)
@@ -48,6 +49,7 @@ void	minishell(void)
 			t = t->next;
 		}
 		// exit(0);
+		cmd = fill_struct_cmd(lst);
 		check_type_cmd(lst);
 		free(line);
 		clear_lst(lst);
