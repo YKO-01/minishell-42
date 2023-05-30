@@ -6,7 +6,7 @@
 /*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 18:46:28 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/05/29 18:15:27 by ayakoubi         ###   ########.fr       */
+/*   Updated: 2023/05/30 13:24:32 by ayakoubi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ char	**get_arg(t_list *lst, int *pos)
 	i = -1;
 	while ((++i <= (*pos)) && lst)
 		lst = lst->next;
-	printf("lst content : %s\n", lst->data->content);
 	tmp = lst;
 	len = 0;
 	while (tmp && tmp->data->token == 1)
@@ -127,38 +126,129 @@ int	get_infile(t_list *lst, int *pos)
 	
 } 
 */
-t_command	*get_simple_command(t_list *lst)
+t_command	*get_simple_command(t_list *lst, int *pos)
 {
 	//int	i;
-	int pos;
-	
-	pos = 0;
+
 	t_command *command;
 	command = malloc(sizeof(t_command));
 	if (!command)
 		return (0);
 	if (lst)
 	{
-		command->cmd = get_command(lst, &pos);
-		command->arg = get_arg(lst, &pos);
+		command->cmd = get_command(lst, pos);
+		command->arg = get_arg(lst, pos);
 	}
-	printf("pos = %d\n", pos);
+	printf("pos = %d\n", *pos);
 	printf("arg = %s\n", command->arg[0]);
 	return (command);
+}
+
+t_redir	*get_redir_left(t_list *lst, int pos)
+{
+	t_redir	*r_left;
+	int 	i;
+	int		len;
+
+	if (pos == 0)
+		return (0);
+	len = pos / 2;
+	r_left = malloc(sizeof(t_redir) * len);
+	if (!r_left)
+		return (0);
+	i = -1;
+	while (++i < len)
+	{
+		if (lst->data->token != 1)
+		{
+			r_left[i].type = lst->data->token;
+			lst = lst->next;
+		}
+		if (lst && lst->data->token == 1)
+		{
+			r_left[i].arg = lst->data->content;
+			lst = lst->next;
+		}
+	}
+	return (r_left);
+}
+
+t_redir *get_redir_right(t_list *lst, int *pos)
+{
+	int i;
+	t_redir *r_right;
+	t_list	*tmp;
+
+	i = -1;
+	while (++i <= (*pos))
+		lst = lst->next;
+	if (!lst)
+		return (0);
+	lst = lst->next;
+	tmp = lst;
+	i = 0;
+	while (tmp && tmp->data->token != 6)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	r_right = malloc(sizeof(t_redir) * (i / 2));
+	if (!r_right)
+		return (0);
+	i = 0;
+	while (lst && lst->data->token != 6)
+	{
+		if (lst->data->token != 1)
+		{
+			r_right[i].type = lst->data->token;
+			lst = lst->next;
+			(*pos)++;
+		}
+		if (lst && lst->data->token == 1)
+		{
+			r_right[i].arg = lst->data->content;
+			lst = lst->next;
+			(*pos)++;
+		}
+		i++;
+	}
+	return (r_right);
 }
 
 t_cmd	*fill_struct_cmd(t_list *lst)
 {
 	t_cmd	*cmd;
+	t_list	*tmp;
 	int	count;
+	int	i;
+	int pos;
 
+	pos = 0;
 	count = command_count(lst);
-	printf("nbr command %d\n", count);
 	cmd = malloc(sizeof(t_cmd) * count);
 	if (!cmd)
 		return (0);
-	cmd->command = get_simple_command(lst);
+	tmp = lst;
+	i = -1;
+	printf("count %d\n", count);
+	while (++i < count)
+	{
+		cmd[i].command = get_simple_command(lst, &pos);
+		cmd[i].r_left = get_redir_left(lst, pos);
+		cmd[i].r_right = get_redir_right(lst, &pos);
+	}
+	
 	printf("cmd = %s\n", cmd->command->cmd);
+	i = -1;
+	while (++i < pos / 2)
+	{
+		printf("------------redir left----------\n");
+		printf("file = %s\n", cmd[0].r_left[i].arg);
+		printf("type_file = %d\n", cmd[0].r_left[i].type);
+		printf("------------redir right----------\n");
+		printf("file = %s\n", cmd[0].r_right[i].arg);
+		printf("type_file = %d\n", cmd[0].r_right[i].type);
+	}
 	//printf("arg = %s\n", cmd->command->arg[0]);
 	return (cmd);
 }
