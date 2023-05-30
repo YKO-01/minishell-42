@@ -15,6 +15,14 @@
 
 # include "minishell.h"
 
+
+/********* DEFINES *************/
+
+# define nbr_cmd int
+# define nbr_rleft int
+# define nbr_rright int
+
+
 typedef struct s_command
 {
 	char *cmd;

@@ -42,7 +42,7 @@ EXECUTSRC	:=	$(addprefix $(SRCDIR)/$(EXECUTDIR)/, $(addsuffix .c, $(EXECUTSRC)))
 ############## compilation ###############
 
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -lreadline
+CFLAGS		=	-Wall -Wextra -Werror
 
 
 C_LIBFT		=	make -C libft
@@ -63,7 +63,7 @@ all:	$(NAME)
 $(NAME):	$(OBJ) $(BUILTOBJ) $(LEXEROBJ) $(PARSEROBJ) $(EXECUTOBJ)
 	@$(C_LIBFT) -s
 	@$(C_GNL) -s
-	@$(CC) $(CFLAGS) $^ $(AR_LIBFT) $(AR_GNL) -I $(INC) -o $@
+	@$(CC) $(CFLAGS) $^ $(AR_LIBFT) $(AR_GNL) -lreadline -I $(INC) -o $@
 
 clean:
 	@$(C_LIBFT) clean
