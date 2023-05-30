@@ -18,10 +18,12 @@
 
 /********* DEFINES *************/
 
-# define nbr_cmd int
-# define nbr_rleft int
-# define nbr_rright int
-
+typedef struct s_info
+{
+	int	nbr_cmd;
+	int	nbr_rleft;
+	int	nbr_rright;
+}	t_info;
 
 typedef struct s_command
 {

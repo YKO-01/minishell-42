@@ -142,19 +142,19 @@ t_command	*get_simple_command(t_list *lst, int *pos)
 	return (command);
 }
 
-t_redir	*get_redir_left(t_list *lst, int pos)
+t_redir	*get_redir_left(t_list *lst, int pos, t_info *info)
 {
 	t_redir	*r_left;
 	int 	i;
 
 	if (pos == 0)
 		return (0);
-	nbr_rleft = pos / 2;
-	r_left = malloc(sizeof(t_redir) * nbr_rleft);
+	info->nbr_rleft = pos / 2;
+	r_left = malloc(sizeof(t_redir) * info->nbr_rleft);
 	if (!r_left)
 		return (0);
 	i = -1;
-	while (++i < nbr_rleft)
+	while (++i < info->nbr_rleft)
 	{
 		if (lst->data->token != 1)
 		{
@@ -170,7 +170,7 @@ t_redir	*get_redir_left(t_list *lst, int pos)
 	return (r_left);
 }
 
-t_redir *get_redir_right(t_list *lst, int *pos)
+t_redir *get_redir_right(t_list *lst, int *pos, t_info *info)
 {
 	int i;
 	t_redir *r_right;
@@ -190,14 +190,14 @@ t_redir *get_redir_right(t_list *lst, int *pos)
 		tmp = tmp->next;
 		i++;
 	}
-	nbr_rright = i / 2;
-	r_right = malloc(sizeof(t_redir) * nbr_rright);
+	info->nbr_rright = i / 2;
+	r_right = malloc(sizeof(t_redir) * info->nbr_rright);
 	if (!r_right)
 		return (0);
 	i = 0;
 	while (lst && lst->data->token != 6)
 	{
-		if (lst->data->token != 1)
+		if (lst && lst->data->token != 1)
 		{
 			r_right[i].type = lst->data->token;
 			lst = lst->next;
@@ -216,25 +216,25 @@ t_cmd	*fill_struct_cmd(t_list *lst)
 {
 	t_cmd	*cmd;
 	t_list	*tmp;
+	t_info	*info;
 	int	count;
 	int	i;
 	int pos;
 
 	pos = 0;
-	nbr_cmd = command_count(lst);
-	cmd = malloc(sizeof(t_cmd) * nbr_cmd);
+	info->nbr_cmd = command_count(lst);
+	info->nbr_rleft = 0;
+	info->nbr_rright = 0;
+	cmd = malloc(sizeof(t_cmd) * info->nbr_cmd);
 	if (!cmd)
 		return (0);
 	tmp = lst;
 	i = -1;
-	while (++i < nbr_cmd)
+	while (++i < info->nbr_cmd)
 	{
-		printf("possss %d\n", pos);
 		cmd[i].command = get_simple_command(lst, &pos);
-		printf("cmd == %s\n", cmd[i].command->cmd);
-		printf("argument == %s\n", cmd[i].command->arg[0]);
-		cmd[i].r_left = get_redir_left(lst, pos);
-		cmd[i].r_right = get_redir_right(lst, &pos);
+		cmd[i].r_left = get_redir_left(lst, pos, info);
+		cmd[i].r_right = get_redir_right(lst, &pos, info);
 		while (lst && lst->data->token != 6)
 			lst = lst->next;
 		if (lst && lst->data->token == 6)
@@ -243,18 +243,22 @@ t_cmd	*fill_struct_cmd(t_list *lst)
 	}	
 	int j;
 	j = -1;
-	while (++j < nbr_cmd)
+	while (++j < info->nbr_cmd)
 	{
 		i = -1;
-	while (++i < nbr_rleft)
-	{
-		printf("------------redir left----------\n");
-		printf("file = %s\n", cmd[j].r_left[i].arg);
-		printf("type_file = %d\n", cmd[j].r_left[i].type);
-		printf("------------redir right----------\n");
-		printf("file = %s\n", cmd[j].r_right[i].arg);
-		printf("type_file = %d\n", cmd[j].r_right[i].type);
-	}
+		while (++i < info->nbr_rleft)
+		{
+			printf("------------redir left----------\n");
+			printf("file = %s\n", cmd[j].r_left[i].arg);
+			printf("type_file = %d\n", cmd[j].r_left[i].type);
+		}
+		i = -1;
+		while (++i < info->nbr_rright)
+		{
+			printf("------------redir right----------\n");
+			printf("file = %s\n", cmd[j].r_right[i].arg);
+			printf("type_file = %d\n", cmd[j].r_right[i].type);
+		}
 	}
 	//printf("arg = %s\n", cmd->command->arg[0]);
 	return (cmd);
