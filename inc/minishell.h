@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:18:34 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 19:48:44 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 23:06:47 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ void	free_2d_array(char **s);
 void	clear_cmd(t_cmd *cmd);
 t_env	*convert_env_to_list(char **env);
 void	clear_lst(t_list *lst);
+void	clear_env_lst(t_env *env_lst);
 
 #endif

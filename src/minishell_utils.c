@@ -6,12 +6,28 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:31:51 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 20:41:38 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 23:06:31 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 #include <limits.h>
+
+void	clear_env_lst(t_env *env_lst)
+{
+	t_env	*cur;
+
+	if (!env_lst)
+		return ;
+	while (env_lst)
+	{
+		cur = env_lst;
+		env_lst = env_lst->next;
+		free(cur->id);
+		free(cur->content);
+		free(cur);
+	}
+}
 
 void	clear_lst(t_list *lst)
 {

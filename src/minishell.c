@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:33:01 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 20:42:26 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 23:58:50 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../inc/expander.h"
 #include "../inc/execution.h"
 #include <readline/history.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -69,21 +70,23 @@ void	print_linked_list(t_list *lst)
 	}
 }
 
-void	clear_env_lst(t_env *env_lst)
-{
-	t_env	*cur;
+// void	handle_sigint(int sig)
+// {
+// 	ft_printf(1, "\n");
+// 	rl_on_new_line();
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// }
 
-	if (!env_lst)
-		return ;
-	while (env_lst)
-	{
-		cur = env_lst;
-		env_lst = env_lst->next;
-		free(cur->id);
-		free(cur->content);
-		free(cur);
-	}
-}
+// void	handle_sigquit(int sig)
+// {
+// }
+
+// void	handle_signals()
+// {
+// 	signal(SIGINT, handle_sigint);
+// 	// signal(SIGQUIT, handle_sigquit);
+// }
 
 void	minishell(char **env)
 {
@@ -92,6 +95,7 @@ void	minishell(char **env)
 	t_cmd	*cmd;
 	t_env	*env_lst;
 
+	// handle_signals();
 	env_lst = convert_env_to_list(env);
 	while (1)
 	{
@@ -106,11 +110,9 @@ void	minishell(char **env)
 				{
 					if (!analyzer(lst))
 					{
-						// print_linked_list(lst);
 						cmd = fill_struct_cmd(lst, env_lst);
 						clear_lst(lst);
 						cmd = expander(cmd, env_lst);
-						// while (1);
 						execution_commands(cmd, &env_lst);
 						clear_cmd(cmd);
 					}

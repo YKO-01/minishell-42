@@ -6,7 +6,7 @@
 #    By: osajide <osajide@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/15 11:24:45 by ayakoubi          #+#    #+#              #
-#    Updated: 2023/06/18 19:58:35 by osajide          ###   ########.fr        #
+#    Updated: 2023/06/18 23:58:20 by osajide          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ EXECUTSRC	:=	$(addprefix $(SRCDIR)/$(EXECUTDIR)/, $(addsuffix .c, $(EXECUTSRC)))
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror -lreadline
 
+READLINE	=	-lreadline -L/Users/osajide/homebrew/opt/readline/lib -I/Users/osajide/homebrew/opt/readline/include
 
 C_LIBFT		=	make -C libft
 C_PRINTF	=	make -C ft_printf
