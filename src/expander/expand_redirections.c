@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_cmd.c                                       :+:      :+:    :+:   */
+/*   expand_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 16:26:45 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 17:27:53 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 18:43:08 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,14 @@ int	expand_redir_string(t_redir *redir, t_env *env_lst, t_redir **new_redir)
 t_redir	*expand_redir(t_redir *redir, t_env *env_lst)
 {
 	t_redir	*new_redir;
+	t_redir	*temp;
 	
 	new_redir = NULL;
-	while (redir)
+	temp = redir;
+	while (temp)
 	{
-		expand_redir_string(redir, env_lst, &new_redir);
-		redir = redir->next;
+		expand_redir_string(temp, env_lst, &new_redir);
+		temp = temp->next;
 	}
 	clear_redir_list(redir);
 	return (new_redir);

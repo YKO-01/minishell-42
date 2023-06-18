@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:56:33 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/16 20:08:26 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 19:33:16 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ int		is_builtin(t_args *args);
 
 char	*get_path_cmd(t_cmd *cmd, char **env);
 void	handle_file_arg(char **args);
+int		env_list_size(t_env *env);
+int		args_list_size(t_args *args);
 
 #endif

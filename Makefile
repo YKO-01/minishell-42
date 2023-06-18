@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+         #
+#    By: osajide <osajide@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/15 11:24:45 by ayakoubi          #+#    #+#              #
-#    Updated: 2023/06/18 14:04:16 by ayakoubi         ###   ########.fr        #
+#    Updated: 2023/06/18 18:45:52 by osajide          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,15 +32,19 @@ PARSERDIR	=	parser
 EXPANDERDIR	=	expander
 EXECUTDIR	=	execution
 
-SRCMAIN		=	minishell main prompt check_quotes minishell_utils
+SRCMAIN		=	minishell main prompt check_quotes minishell_utils convert_to_env_lst
+
 BUILTSRC	:=	cd echo pwd export env unset exit
+
 LEXERSRC	:=	lexer tokenize tokenize_dollar_pipe tokenize_redirection analyzer \
 				utils
+				
 PARSERSRC	:=	parser parser_utils heredoc
-EXPANDERSRC	:=	expander convert_to_env_lst expand_dollar_sign expand_cmd \
-				expand_inside_quotes replace_var_value split_charset clear_lists \
-				args_expansion
-EXECUTSRC	:=	get_path_cmd execute_cmd execution_utils execute_multiple_cmd \
+
+EXPANDERSRC	:=	expander expand_dollar_sign expand_redirections expand_inside_quotes \
+				replace_var_value split_charset clear_lists expand_args
+				
+EXECUTSRC	:=	get_path_cmd execute_cmd execution_utils execute_commands \
 				handle_file builtin_utils
 
 OBJ			:=	$(addprefix $(OBJDIR)/, $(addsuffix .o, $(SRCMAIN)))

@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 16:04:31 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/17 16:14:49 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 19:34:50 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,16 @@ char	**dup_lstenv(t_env *env)
 
 	i = 0;
 	if (!env)
-		return (0);
-	tmp = env;
-	while (tmp)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	new_env = malloc(sizeof(char *) * (i + 1));
+		return (NULL);
+	new_env = malloc(sizeof(char *) * (env_list_size(env) + 1));
 	if (!new_env)
-		return (0);
-	i = -1;
+		return (NULL);
+	i = 0;
 	tmp = env;
 	while (tmp)
 	{
 		new_env[i] = ft_strjoin(tmp->id, "=");
-		new_env[i] = ft_strjoin(new_env[i], tmp->content);
+		new_env[i] = join_with_free(new_env[i], tmp->content);
 		tmp = tmp->next;
 		i++;
 	}
@@ -53,14 +47,7 @@ char	**get_new_arg(t_cmd *cmd)
 	
 	i = -1;
 	len = 0;
-	tmp = cmd->args;
-	while (tmp)
-	{
-		if (tmp->argument)
-			len++;
-		tmp = tmp->next;
-	}
-	new = malloc(sizeof(char *) * (len + 1));
+	new = malloc(sizeof(char *) * (args_list_size(cmd->args) + 1));
 	if (!new)
 		return (0);
 	i = 0;

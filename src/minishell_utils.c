@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:31:51 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 16:55:12 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 18:41:16 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,4 @@ void	clear_cmd(t_cmd *cmd)
 		clear_redir_list(cmd[i].redir);
 	}
 	free(cmd);
-}
-
-
-t_env	*convert_env_to_list(char **env)
-{
-	int	i;
-	t_env *env_lst;
-	env_lst = NULL;
-	i = 0;
-	while (env[i])
-	{
-		add_env_node_back(&env_lst,
-			add_new_env_node(get_env_id(env[i]), get_env_content(env[i])));
-		i++;
-	}
-	return (env_lst);
 }

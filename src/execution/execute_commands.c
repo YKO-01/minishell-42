@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_multiple_cmd.c                             :+:      :+:    :+:   */
+/*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 13:00:51 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 12:30:51 by ayakoubi         ###   ########.fr       */
+/*   Updated: 2023/06/18 19:07:56 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int execute_multiple_cmd(t_cmd *cmd, t_env **env)
 	i = -1;
 	while (++i < general.nbr_cmd)
 		waitpid(pid[i], &general.exit_status, 0);
+	free(pid);
 	st = (unsigned char *)&general.exit_status;
 	if (st[0])
 		general.exit_status = st[0];
