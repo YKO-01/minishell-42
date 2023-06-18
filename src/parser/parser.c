@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 18:46:28 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 12:24:37 by ayakoubi         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:27:10 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_command(t_list *lst, int *pos)
 			return (ft_strdup(lst->data->content));
 	}
 	return (NULL);
-}
+} 
 
 t_args	*get_arg(t_list *lst, int *pos)
 {
@@ -138,6 +138,8 @@ t_cmd	*fill_struct_cmd(t_list *lst, t_env *env_lst)
 	
 	general.nbr_cmd = command_number(lst);
 	cmd = malloc(general.nbr_cmd * sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
 	pos = 0;
 	i = 0;
 	while (i < general.nbr_cmd)

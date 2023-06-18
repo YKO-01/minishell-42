@@ -6,11 +6,12 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:41:17 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/11 16:54:55 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 16:36:34 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/lexer.h"
+
+#include "../../inc/minishell.h"
 #include <stdio.h>
 
 int	only_env(char *s)
@@ -57,6 +58,6 @@ void	if_pipe(char *line, t_list **lst, int *pos)
 	char	*temp;
 
 	temp = NULL;
-	temp = ft_strjoin(temp, "|");
+	temp = ft_join_char(temp, '|');
 	ft_lstadd_back(lst, ft_lstnew(temp, PIPE));
 }

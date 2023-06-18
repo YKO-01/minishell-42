@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:33:01 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 16:11:12 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 16:37:59 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	clear_lst(t_list *lst)
 		free(cur->data->content);
 		free(cur->data);
 		free(cur);
-		cur = NULL;
 	}
 }
 
@@ -83,7 +82,6 @@ void	clear_env_lst(t_env *env_lst)
 		free(cur->id);
 		free(cur->content);
 		free(cur);
-		cur = NULL;
 	}
 }
 
