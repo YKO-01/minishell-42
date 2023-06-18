@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:33:01 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 18:43:15 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 20:42:26 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,21 @@
 
 t_general	general;
 
-void	clear_lst(t_list *lst)
-{
-	t_list	*cur;
+// void	clear_lst(t_list *lst)
+// {
+// 	t_list	*cur;
 	
-	if (!lst)
-		return ;
-	while (lst)
-	{
-		cur  = lst;
-		lst = lst->next;
-		free(cur->data->content);
-		free(cur->data);
-		free(cur);
-	}
-}
+// 	if (!lst)
+// 		return ;
+// 	while (lst)
+// 	{
+// 		cur  = lst;
+// 		lst = lst->next;
+// 		free(cur->data->content);
+// 		free(cur->data);
+// 		free(cur);
+// 	}
+// }
 
 void	print_linked_list(t_list *lst)
 {
@@ -93,9 +93,9 @@ void	minishell(char **env)
 	t_env	*env_lst;
 
 	env_lst = convert_env_to_list(env);
-	lst = NULL;
 	while (1)
 	{
+		lst = NULL;
 		line = display_prompt();
 		if (line && line[0])
 		{	
@@ -116,7 +116,6 @@ void	minishell(char **env)
 					}
 				}
 			}
-			lst  = NULL;
 		}
 		if (line)
 			free(line);

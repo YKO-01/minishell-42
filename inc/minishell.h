@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:18:34 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 15:59:39 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 19:48:44 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ char	*join_with_free(char	*s1, char *s2);
 void	free_2d_array(char **s);
 void	clear_cmd(t_cmd *cmd);
 t_env	*convert_env_to_list(char **env);
-// void check_type_cmd(t_list *lst);
+void	clear_lst(t_list *lst);
 
 #endif

@@ -6,11 +6,28 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:31:51 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 18:41:16 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 20:41:38 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+#include <limits.h>
+
+void	clear_lst(t_list *lst)
+{
+	t_list	*cur;
+	
+	if (!lst)
+		return ;
+	while (lst)
+	{
+		cur  = lst;
+		lst = lst->next;
+		free(cur->data->content);
+		free(cur->data);
+		free(cur);
+	}
+}
 
 char	*trim_with_free(char *s1, char *set)
 {
@@ -24,7 +41,9 @@ char	*trim_with_free(char *s1, char *set)
 char	*join_with_free(char *s1, char *s2)
 {
 	char	*tmp;
-
+	
+	if (!s1)
+		s1 = ft_strdup("\0");
 	tmp = ft_strjoin(s1, s2);
 	if (s1)
 		free(s1);

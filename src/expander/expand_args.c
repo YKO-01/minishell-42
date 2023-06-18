@@ -6,12 +6,13 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 12:58:50 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 18:24:46 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 20:43:07 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void	expand_args_string(char *s, t_env *env_lst, t_args **new_args)
 {
@@ -30,9 +31,17 @@ void	expand_args_string(char *s, t_env *env_lst, t_args **new_args)
 	{
 		to_join = 1;
 		if (s[i] == 39)
-			temp =  join_with_free(temp, expand_inside_single_quotes(s, &i));
+		{
+			char *h = expand_inside_single_quotes(s, &i);
+			temp =  join_with_free(temp, h);
+			free(h);
+		}
 		else if (s[i] == 34)
-			temp = join_with_free(temp, expand_inside_double_quotes(s, &i, env_lst));
+		{
+			char *h = expand_inside_double_quotes(s, &i, env_lst);
+			temp = join_with_free(temp, h);
+			free(h);
+		}
 		else if (s[i] == '$')
 		{
 			var = handle_dollar_sign(s, &i, env_lst);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:44:27 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 12:23:38 by ayakoubi         ###   ########.fr       */
+/*   Updated: 2023/06/18 21:09:02 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,19 +122,21 @@ void	ft_export(t_args *args, t_env *env_lst)
 	{
 		while (args)
 		{
-			if (check_var_identifier(env_id(args->argument)))
+			char *id = env_id(args->argument);
+			if (check_var_identifier(id))
 			{
-				if (!export_new_value(env_lst, env_id(args->argument),  env_content(args->argument)))
+				char *content = env_content(args->argument);
+				if (!export_new_value(env_lst, id,  content))
 				{
 					ptr = ft_strchr(args->argument, '=');
 					if (!ptr)
-						add_env_node_back(&env_lst, add_new_env_node(ft_strdup(args->argument), NULL));
+						add_env_node_back(&env_lst, add_new_env_node(id, NULL));
 					else
 					{
 						if (!ft_strncmp(ptr, "=", ft_strlen(ptr)))
-							add_env_node_back(&env_lst, add_new_env_node(env_id(args->argument), ""));
+							add_env_node_back(&env_lst, add_new_env_node(id, ""));
 						else
-							add_env_node_back(&env_lst, add_new_env_node(env_id(args->argument), env_content(args->argument)));
+							add_env_node_back(&env_lst, add_new_env_node(id, content));
 					}
 				}
 			}

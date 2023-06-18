@@ -6,7 +6,7 @@
 #    By: osajide <osajide@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/15 11:24:45 by ayakoubi          #+#    #+#              #
-#    Updated: 2023/06/18 18:45:52 by osajide          ###   ########.fr        #
+#    Updated: 2023/06/18 19:58:35 by osajide          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ EXPANDERSRC	:=	expander expand_dollar_sign expand_redirections expand_inside_quo
 				replace_var_value split_charset clear_lists expand_args
 				
 EXECUTSRC	:=	get_path_cmd execute_cmd execution_utils execute_commands \
-				handle_file builtin_utils
+				handle_file utils
 
 OBJ			:=	$(addprefix $(OBJDIR)/, $(addsuffix .o, $(SRCMAIN)))
 SRC			:=	$(addprefix $(SRCDIR)/, $(addsuffix .c, $(SRCMAIN)))
@@ -63,7 +63,7 @@ EXECUTSRC	:=	$(addprefix $(SRCDIR)/$(EXECUTDIR)/, $(addsuffix .c, $(EXECUTSRC)))
 ############## compilation ###############
 
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -lreadline #-g -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -lreadline
 
 
 C_LIBFT		=	make -C libft
