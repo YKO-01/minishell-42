@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:33:01 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 14:48:52 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 16:11:12 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,23 @@ void	print_linked_list(t_list *lst)
 	}
 }
 
+void	clear_env_lst(t_env *env_lst)
+{
+	t_env	*cur;
+
+	if (!env_lst)
+		return ;
+	while (env_lst)
+	{
+		cur = env_lst;
+		env_lst = env_lst->next;
+		free(cur->id);
+		free(cur->content);
+		free(cur);
+		cur = NULL;
+	}
+}
+
 void	minishell(char **env)
 {
 	char	*line;
@@ -92,18 +109,19 @@ void	minishell(char **env)
 					if (!analyzer(lst))
 					{
 						// print_linked_list(lst);
-						general.should_exec = 1;
 						cmd = fill_struct_cmd(lst, env_lst);
 						clear_lst(lst);
 						cmd = expander(cmd, env_lst);
+						// while (1);
 						execution_commands(cmd, &env_lst);
 						clear_cmd(cmd);
 					}
 				}
 			}
-			free(line);
-			//clear_lst(lst);
 			lst  = NULL;
 		}
+		if (line)
+			free(line);
 	}
+	clear_env_lst(env_lst);
 }

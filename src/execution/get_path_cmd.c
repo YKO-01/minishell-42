@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 19:02:45 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 13:51:45 by ayakoubi         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:34:02 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*check_path(char *cmd, char *path)
 	while (new_path[++i] && *cmd)
 	{
 		last_path = ft_strjoin(new_path[i], "/");
-		last_path = ft_strjoin(last_path, cmd);
+		last_path = join_with_free(last_path, cmd);
 		if (access(last_path, F_OK) == 0)
 			return (free_2d_array(new_path), last_path);
 		free(last_path);

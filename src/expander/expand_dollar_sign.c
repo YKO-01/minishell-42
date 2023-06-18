@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 21:33:29 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/16 22:11:36 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 16:10:42 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*handle_dollar_sign(char *s, int *pos, t_env *env_lst)
 		while (env_lst)
 		{
 			if (!ft_strncmp(temp, env_lst->id, ft_strlen(temp)))
-				return ((*pos)--, env_lst->content);
+				return ((*pos)--, free(temp), ft_strdup(env_lst->content));
 			env_lst = env_lst->next;
 		}
 		if (!env_lst)
@@ -105,7 +105,7 @@ char	*handle_dollar_sign_inside_d_quotes(char *s, int *pos, t_env *env_lst)
 		while (env_lst)
 		{
 			if (!ft_strncmp(temp, env_lst->id, ft_strlen(temp)))
-				return (env_lst->content);
+				return (free(temp), ft_strdup(env_lst->content));
 			env_lst = env_lst->next;
 		}
 		if (!env_lst)

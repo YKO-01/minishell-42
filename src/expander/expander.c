@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:11:28 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/15 20:30:23 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 15:41:02 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	expand_cmd(t_cmd *cmd, t_env *env_lst)
 	// 	printf("\n---------------------------------------------------------------------\n");
 	// 	tmp = tmp->next;
 	// }
-	cmd->redir = expand_redir(cmd->redir, env_lst);
+	if (cmd->redir)
+		cmd->redir = expand_redir(cmd->redir, env_lst);
 	// if(!cmd->redir)
 	// 	return (0);
 	// printf("cmd->redir->file = (%s)\n", cmd->redir->file);
@@ -45,7 +46,6 @@ t_cmd	*expander(t_cmd *cmd, t_env *env_lst)
 {
 	int		i;
 
-	// printf("\n\n\033[1;31mParser finished\n***********************\033[0m\n\n");
 	i = 0;
 	//convert_to_env_list(env, &env_lst);
 	while (i < general.nbr_cmd)

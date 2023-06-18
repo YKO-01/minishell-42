@@ -3,16 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:31:51 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 13:22:39 by ayakoubi         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:59:44 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	*join_with_free(char *s1, char *s2)
+char	*trim_with_free(char *s1, char *set)
+{
+	char *str;
+
+	str = ft_strtrim(s1, set);
+	free(s1);
+	return (str);
+}
+
+char	*join_with_free(char *s1, char *s2)
 {
 	char	*tmp;
 
