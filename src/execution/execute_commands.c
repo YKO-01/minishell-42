@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 13:00:51 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 19:07:56 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 22:56:32 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	execution_commands(t_cmd *cmd, t_env **env)
 			builtin_cmd(cmd->args, env);
 		dup2(save_fd[0], 0);
 		dup2(save_fd[1], 1);
+		close(save_fd[0]);
+		close(save_fd[1]);
 	}
 	else
 		execute_multiple_cmd(cmd, env);
@@ -85,6 +87,8 @@ int execute_multiple_cmd(t_cmd *cmd, t_env **env)
 			prv_fd = fd[0];
 			if (i < general.nbr_cmd - 1)
 				close(fd[1]);
+			if (cmd[i].redir && cmd[i].redir->type == HEREDOC)
+				close(cmd[i].h_fd[0]);
 		}
 	}
 	i = -1;

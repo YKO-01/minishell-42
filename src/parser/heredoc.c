@@ -6,13 +6,14 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:58:28 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 14:49:46 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 22:50:29 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 int	check_if_quoted(char *s)
 {
@@ -80,6 +81,7 @@ void	read_herdoc(t_cmd *cmd, t_env *env_lst)
 	char	*line;
 	char	*expand_del;
 	int		if_quoted;
+	int 	fd;
 	t_redir	*tmp;
 	
 	tmp = cmd->redir;
@@ -87,11 +89,12 @@ void	read_herdoc(t_cmd *cmd, t_env *env_lst)
 	{
 		if (tmp->type == HEREDOC)
 		{
-			cmd->h_fd[0] = -1;
+			//cmd->h_fd[0] = -1;
 			if_quoted = check_if_quoted(tmp->file);
 			expand_del = ft_remove_quotes(tmp->file);
-			close(cmd->h_fd[0]);
+			//close(fd);
 			pipe(cmd->h_fd);
+			//fd = cmd->h_fd[0];
 			while (1)
 			{
 				line = readline("> ");
@@ -105,6 +108,7 @@ void	read_herdoc(t_cmd *cmd, t_env *env_lst)
 			if (line)
 				free(line);
 			free(expand_del);
+			// close(cmd->h_fd[0]);
 			close(cmd->h_fd[1]);
 		}
 		tmp = tmp->next;

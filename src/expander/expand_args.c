@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 12:58:50 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 20:43:07 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/18 21:56:19 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ void	expand_args_string(char *s, t_env *env_lst, t_args **new_args)
 			if (s[i + 1] == '$')
 			{
 				i++;
-				var = join_with_free(var, handle_dollar_sign(s, &i, env_lst));
+				char *h = handle_dollar_sign(s, &i, env_lst);
+				var = join_with_free(var, h);
+				free(h);
 			}
 			if (!temp && split_word_count(var, "\t ") <= 1)
 				var = trim_with_free(var, "\t ");
@@ -57,12 +59,7 @@ void	expand_args_string(char *s, t_env *env_lst, t_args **new_args)
 				to_join = 0;
 				replace_var_in_args_list(temp, var, new_args);
 			}
-			if (!*var)
-			{
-				free(var);
-				var = NULL;
-			}
-			if (to_join)
+			if (to_join && *var)
 				temp = join_with_free(temp, var);
 			free(var);
 		}
