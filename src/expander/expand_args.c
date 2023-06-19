@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 12:58:50 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 19:04:25 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 20:34:18 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,79 +14,73 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char	*dollar_sign_case(t_args **new_args, char *s, int *pos, int *to_join)
+char	*dollar_sign_case(t_args **new_args, char *s, int *pos, char *before)
 {
 	char	*var;
-	char	*temp;
-	
+	char	*temp1;
+	int		to_join;
+
+	to_join = 1;
 	var = handle_dollar_sign(s, pos);
 	if (s[*pos + 1] == '$')
 	{
 		(*pos)++;
-		temp = handle_dollar_sign(s, pos);
-		var = join_with_free(var, temp);
-		free(temp);
+		temp1 = handle_dollar_sign(s, pos);
+		var = join_with_free(var, temp1);
+		free(temp1);
 	}
-	if (!temp && split_word_count(var, "\t ") <= 1)
+	if (!before && split_word_count(var, "\t ") <= 1)
 		var = trim_with_free(var, "\t ");
 	else if (split_word_count(var, "\t ") > 1)
 	{
-		*to_join = 0;
-		replace_var_in_args_list(temp, var, new_args);
+		to_join = 0;
+		replace_var_in_args_list(before, var, new_args);
 	}
-	if (*to_join && *var)
-		temp = join_with_free(temp, var);
-	return (var);
+	if (to_join && *var)
+		before = join_with_free(before, var);
+	free(var);
+	return (before);
+}
+
+char	*signle_quote_case(char *s, int *pos, char *before)
+{
+	char	*temp;
+
+	temp = expand_inside_single_quotes(s, pos);
+	before = join_with_free(before, temp);
+	free(temp);
+	return (before);
+}
+
+char	*double_quotes_case(char *s, int *pos, char *before)
+{
+	char	*temp;
+
+	temp = expand_inside_double_quotes(s, pos);
+	before = join_with_free(before, temp);
+	free(temp);
+	return (before);
 }
 
 void	expand_args_string(char *s, t_args **new_args)
 {
 	int		i;
 	char	*temp;
-	char	*var;
 	int		to_join;
 
 	i = 0;
 	temp = NULL;
-	var = NULL;
 	if (!s)
 		return ;
 	while (s[i])
 	{
 		to_join = 1;
 		if (s[i] == 39)
-		{
-			char *h = expand_inside_single_quotes(s, &i);
-			temp =  join_with_free(temp, h);
-			free(h);
-		}
+			temp = signle_quote_case(s, &i, temp);
 		else if (s[i] == 34)
-		{
-			char *h = expand_inside_double_quotes(s, &i);
-			temp = join_with_free(temp, h);
-			free(h);
-		}
+			temp = double_quotes_case(s, &i, temp);
 		else if (s[i] == '$')
-		{
-			var = handle_dollar_sign(s, &i);
-			if (s[i + 1] == '$')
-			{
-				i++;
-				char *h = handle_dollar_sign(s, &i);
-				var = join_with_free(var, h);
-				free(h);
-			}
-			if (!temp && split_word_count(var, "\t ") <= 1)
-				var = trim_with_free(var, "\t ");
-			else if (split_word_count(var, "\t ") > 1)
-			{
-				to_join = 0;
-				replace_var_in_args_list(temp, var, new_args);
-			}
-			if (to_join && *var)
-				temp = join_with_free(temp, var);
-			free(var);
-		}
+			temp = dollar_sign_case(new_args, s, &i, temp);
 		else
 			temp = ft_join_char(temp, s[i]);
 		i++;
