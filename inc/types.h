@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 20:01:06 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 18:49:39 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:49:57 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ typedef struct s_env
 typedef struct s_g_general
 {
 	t_env	*env;
-	int	nbr_cmd;
-	int	sig_flag;
-	int	exit_status;
+	int		nbr_cmd;
+	int		sig_flag;
+	int		exit_status;
 }	t_general;
 
 #endif

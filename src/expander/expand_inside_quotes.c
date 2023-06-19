@@ -6,12 +6,11 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 16:40:08 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 19:47:42 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:49:00 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include <stdio.h>
 
 char	*expand_inside_single_quotes(char *s, int *pos)
 {
