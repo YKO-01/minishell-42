@@ -6,13 +6,11 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:41:17 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 16:36:34 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:51:57 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../inc/minishell.h"
-#include <stdio.h>
 
 int	only_env(char *s)
 {

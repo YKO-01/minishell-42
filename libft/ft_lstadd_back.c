@@ -6,12 +6,12 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:33:54 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/03 20:31:28 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:07:44 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-# include "../inc/lexer.h"
+#include "../inc/lexer.h"
 
 void	ft_lstadd_back(t_list **lst, t_list *node)
 {

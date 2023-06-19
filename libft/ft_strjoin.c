@@ -6,18 +6,16 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 13:07:38 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 20:34:43 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:10:11 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-#include <string.h>
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*new;
 
 	if (!s1 && !s2)
@@ -39,6 +37,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (s2[j])
 		new[i++] = s2[j++];
 	new[i] = '\0';
-	// free((char *)s1);
 	return (new);
 }

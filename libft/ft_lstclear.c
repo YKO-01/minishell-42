@@ -6,13 +6,12 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 15:19:44 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/03 20:32:06 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:08:07 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "libft.h"
+#include "libft.h"
 #include "../inc/lexer.h"
-
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
