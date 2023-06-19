@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:33:01 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 23:58:50 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 09:45:29 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,23 +70,23 @@ void	print_linked_list(t_list *lst)
 	}
 }
 
-// void	handle_sigint(int sig)
-// {
-// 	ft_printf(1, "\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
+void	handle_sigint(int sig)
+{
+	ft_printf(1, "\n");
+	if (!general.sig_flag)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	general.exit_status = 1;
+}
 
-// void	handle_sigquit(int sig)
-// {
-// }
-
-// void	handle_signals()
-// {
-// 	signal(SIGINT, handle_sigint);
-// 	// signal(SIGQUIT, handle_sigquit);
-// }
+void	handle_signals()
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}
 
 void	minishell(char **env)
 {
@@ -94,11 +94,13 @@ void	minishell(char **env)
 	t_list	*lst;
 	t_cmd	*cmd;
 	t_env	*env_lst;
+		general.sig_flag = 0;
 
-	// handle_signals();
+	handle_signals();
 	env_lst = convert_env_to_list(env);
 	while (1)
 	{
+		general.sig_flag = 0;
 		lst = NULL;
 		line = display_prompt();
 		if (line && line[0])
@@ -114,6 +116,7 @@ void	minishell(char **env)
 						clear_lst(lst);
 						cmd = expander(cmd, env_lst);
 						execution_commands(cmd, &env_lst);
+						general.sig_flag = 0;
 						clear_cmd(cmd);
 					}
 				}

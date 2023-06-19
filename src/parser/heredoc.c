@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:58:28 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 22:50:29 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 09:52:05 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,16 @@ void	read_herdoc(t_cmd *cmd, t_env *env_lst)
 	{
 		if (tmp->type == HEREDOC)
 		{
-			//cmd->h_fd[0] = -1;
 			if_quoted = check_if_quoted(tmp->file);
 			expand_del = ft_remove_quotes(tmp->file);
-			//close(fd);
 			pipe(cmd->h_fd);
-			//fd = cmd->h_fd[0];
 			while (1)
 			{
-				line = readline("> ");
+				if (isatty(0))
+					ft_printf(1, "> ");
+				line = get_next_line(0);
+				if (line)
+					line = trim_with_free(line, "\n");
 				if (!line || !ft_strncmp(expand_del, line, -1))
 					break;
 				if (!if_quoted)
@@ -108,7 +109,6 @@ void	read_herdoc(t_cmd *cmd, t_env *env_lst)
 			if (line)
 				free(line);
 			free(expand_del);
-			// close(cmd->h_fd[0]);
 			close(cmd->h_fd[1]);
 		}
 		tmp = tmp->next;

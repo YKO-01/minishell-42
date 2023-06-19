@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:18:34 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 23:06:47 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 08:52:32 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 #include "expander.h"
 
 extern t_general	general;
+
+void	rl_replace_line(char *str, int i);
 
 /************ prompt ***************/
 

@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 13:00:51 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 23:14:41 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 09:36:57 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,13 @@ int execute_multiple_cmd(t_cmd *cmd, t_env **env)
 	{
 		if (i < general.nbr_cmd - 1 && pipe(fd) < 0)
 			return (printf("an error in create pipe\n"), 0);
+		general.sig_flag = 1;
 		pid[i] = fork();
 		if (pid[i] < 0)
 			return (printf("an error in create process\n"), 0);
 		if (pid[i] == 0)
 		{
+			signal(SIGQUIT, SIG_DFL);
 			if (i < general.nbr_cmd - 1)
 			{
 				dup2(fd[1], 1);
@@ -97,7 +99,7 @@ int execute_multiple_cmd(t_cmd *cmd, t_env **env)
 	free(pid);
 	st = (unsigned char *)&general.exit_status;
 	if (st[0])
-		general.exit_status = st[0];
+		general.exit_status = st[0] + 128;
 	else
 		general.exit_status = st[1];
 	return (1);
