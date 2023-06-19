@@ -6,13 +6,11 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 12:58:50 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 20:34:18 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:11:50 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 char	*dollar_sign_case(t_args **new_args, char *s, int *pos, char *before)
 {
@@ -66,7 +64,6 @@ void	expand_args_string(char *s, t_args **new_args)
 {
 	int		i;
 	char	*temp;
-	int		to_join;
 
 	i = 0;
 	temp = NULL;
@@ -74,7 +71,6 @@ void	expand_args_string(char *s, t_args **new_args)
 		return ;
 	while (s[i])
 	{
-		to_join = 1;
 		if (s[i] == 39)
 			temp = signle_quote_case(s, &i, temp);
 		else if (s[i] == 34)
@@ -86,20 +82,4 @@ void	expand_args_string(char *s, t_args **new_args)
 		i++;
 	}
 	add_args_node_back(new_args, new_args_node(temp));
-}
-
-t_args	*expand_args(t_args *args)
-{
-	t_args	*new_args;
-	t_args	*temp;
-
-	new_args = NULL;
-	temp = args;
-	while (temp)
-	{
-		expand_args_string(temp->argument, &new_args);
-		temp = temp->next;
-	}
-	clear_args_list(args);
-	return (new_args);
 }

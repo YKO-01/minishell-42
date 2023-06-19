@@ -6,11 +6,43 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:11:28 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 19:02:25 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:08:22 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+t_args	*expand_args(t_args *args)
+{
+	t_args	*new_args;
+	t_args	*temp;
+
+	new_args = NULL;
+	temp = args;
+	while (temp)
+	{
+		expand_args_string(temp->argument, &new_args);
+		temp = temp->next;
+	}
+	clear_args_list(args);
+	return (new_args);
+}
+
+t_redir	*expand_redir(t_redir *redir)
+{
+	t_redir	*new_redir;
+	t_redir	*temp;
+
+	new_redir = NULL;
+	temp = redir;
+	while (temp)
+	{
+		expand_redir_string(temp, &new_redir);
+		temp = temp->next;
+	}
+	clear_redir_list(redir);
+	return (new_redir);
+}
 
 int	expand_cmd(t_cmd *cmd)
 {	

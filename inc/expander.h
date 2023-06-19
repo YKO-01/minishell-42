@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:51:02 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 19:43:44 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:09:54 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	**ft_split_charset(char const *s, char *charset);
 int		if_should_split(char *var);
 void	replace_var_in_args_list(char *before_var, char *var,
 			t_args **new_args);
+char	*replace_spaces(char *var);
 
 /************** env linked list *************/
 
@@ -52,6 +53,7 @@ char	*expand_inside_double_quotes(char *s, int *pos);
 /**************** expand redirection ********************/
 
 t_redir	*expand_redir(t_redir *redir);
+int		expand_redir_string(t_redir *redir, t_redir **new_redir);
 
 /**************  args_expansion ***************/
 

@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 21:33:29 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 18:58:09 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:35:14 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,46 @@ void	skip_dollars(char *s, int *pos)
 		(*pos)--;
 }
 
+char	*give_expanded_value(char *s, int *pos)
+{
+	int		start;
+	char	*temp;
+	t_env	*tmp_env;
+
+	start = *pos;
+	temp = NULL;
+	tmp_env = g_general.env;
+	while (ft_isalnum(s[*pos]) || s[*pos] == '_')
+		(*pos)++;
+	temp = ft_substr(s, start, *pos);
+	while (tmp_env)
+	{
+		if (!ft_strncmp(temp, tmp_env->id, ft_strlen(temp)))
+			return (free(temp), ft_strdup(tmp_env->content));
+		tmp_env = tmp_env->next;
+	}
+	if (!tmp_env)
+	{
+		ft_bzero(temp, ft_strlen(temp));
+		return (temp);
+	}
+	return (temp);
+}
+
+char	*if_not_a_valid_identifier(char *s, int *pos)
+{
+	int		start;
+	char	*temp;
+
+	temp = NULL;
+	(*pos)++;
+	start = *pos;
+	while (s[*pos])
+		(*pos)++;
+	temp = ft_substr(s, start, *pos);
+	return (temp);
+}
+
 char	*handle_dollar_sign(char *s, int *pos)
 {
 	char	*temp;
@@ -40,37 +80,15 @@ char	*handle_dollar_sign(char *s, int *pos)
 	(*pos)++;
 	skip_dollars(s, pos);
 	if (!s[*pos])
-		return ((*pos)-- , ft_join_char(temp, '$'));
+		return ((*pos)--, ft_join_char(temp, '$'));
 	else if (s[*pos] == '?')
 		return (ft_itoa(g_general.exit_status));
 	else if (s[*pos] == '\'' || s[*pos] == '"')
 		return ((*pos)--, ft_join_char(temp, '\0'));
 	if (!(ft_isalpha(s[*pos]) || s[*pos] == '_'))
-	{
-		(*pos)++;
-		start = *pos;
-		while (s[*pos])
-			(*pos)++;
-		temp = ft_substr(s, start, *pos);
-	}
+		temp = if_not_a_valid_identifier(s, pos);
 	else
-	{
-		start = *pos;
-		while (ft_isalnum(s[*pos]) || s[*pos] == '_')
-			(*pos)++;
-		temp = ft_substr(s, start, *pos);
-		while (tmp_env)
-		{
-			if (!ft_strncmp(temp, tmp_env->id, ft_strlen(temp)))
-				return ((*pos)--, free(temp), ft_strdup(tmp_env->content));
-			tmp_env = tmp_env->next;
-		}
-		if (!tmp_env)
-		{
-			ft_bzero(temp, ft_strlen(temp));
-			return ((*pos)--, temp);
-		}
-	}
+		temp = give_expanded_value(s, pos);
 	return ((*pos)--, temp);
 }
 
@@ -99,22 +117,6 @@ char	*handle_dollar_sign_inside_d_quotes(char *s, int *pos, t_env *env_lst)
 		temp = ft_substr(s, start, *pos);
 	}
 	else
-	{
-		start = *pos;
-		while (ft_isalnum(s[*pos]) || s[*pos] == '_')
-			(*pos)++;
-		temp = ft_substr(s, start, *pos);
-		while (env_lst)
-		{
-			if (!ft_strncmp(temp, env_lst->id, ft_strlen(temp)))
-				return (free(temp), ft_strdup(env_lst->content));
-			env_lst = env_lst->next;
-		}
-		if (!env_lst)
-		{
-			ft_bzero(temp, ft_strlen(temp));
-			return (temp);
-		}
-	}
+		temp = give_expanded_value(s, pos);
 	return (temp);
 }
