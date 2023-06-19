@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:45:34 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 18:27:38 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:29:05 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ char	*get_env_content(char *env_var)
 
 t_env	*convert_env_to_list(char **env)
 {
-	int	i;
-	t_env *env_lst;
+	int		i;
+	t_env	*env_lst;
+
 	env_lst = NULL;
 	i = 0;
 	while (env[i])

@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:53:55 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/12 22:14:22 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 16:25:23 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 
 /**************** lexer *****************/
 
-void	loop_on_input(char *line, t_list **lst);
+void	lexer(char *line, t_list **lst);
 void	if_string(char *line, t_list **lst, int *pos);
 char	*handle_quote(t_list **lst, char *line, int *pos, int ascii);
 void	if_single_quote(char *line, t_list **lst, int *pos);

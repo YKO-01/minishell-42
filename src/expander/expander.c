@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:11:28 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 18:33:32 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:12:22 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_cmd	*expander(t_cmd *cmd, t_env *env_lst)
 	int	i;
 
 	i = 0;
-	while (i < general.nbr_cmd)
+	while (i < g_general.nbr_cmd)
 	{
 		if (expand_cmd(&cmd[i], env_lst) == 0)
 			return (NULL);

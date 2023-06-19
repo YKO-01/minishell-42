@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 18:46:28 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 22:50:23 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:12:22 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,13 +136,13 @@ t_cmd	*fill_struct_cmd(t_list *lst, t_env *env_lst)
 	int		i;
 	int		pos;
 	
-	general.nbr_cmd = command_number(lst);
-	cmd = malloc(general.nbr_cmd * sizeof(t_cmd));
+	g_general.nbr_cmd = command_number(lst);
+	cmd = malloc(g_general.nbr_cmd * sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
 	pos = 0;
 	i = 0;
-	while (i < general.nbr_cmd)
+	while (i < g_general.nbr_cmd)
 	{
 		cmd[i].args = get_arg(lst, &pos);
 		cmd[i].redir = fill_struct_redir(lst);
@@ -156,6 +156,6 @@ t_cmd	*fill_struct_cmd(t_list *lst, t_env *env_lst)
 			lst = lst->next;
 		pos = 0;
 	}
-	// print_parser(cmd, general.nbr_cmd);
+	// print_parser(cmd, g_general.nbr_cmd);
 	return (cmd);
 }

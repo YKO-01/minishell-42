@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 13:00:51 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/19 09:36:57 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:12:22 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ void	execution_commands(t_cmd *cmd, t_env **env)
 {
 	int	save_fd[2];
 
-	if (general.nbr_cmd == 1 && cmd->args && is_builtin(cmd->args))
+	if (g_general.nbr_cmd == 1 && cmd->args && is_builtin(cmd->args))
 	{
 		save_fd[0] = dup(STDIN_FILENO);
 		save_fd[1] = dup(STDOUT_FILENO);
 		cmd->h_fd[0] = -1;
 		if (!open_files(*cmd))
 		{
-			general.exit_status = 1;
+			g_general.exit_status = 1;
 			return;
 		}
 		if (cmd->args->argument)
@@ -51,19 +51,19 @@ int execute_multiple_cmd(t_cmd *cmd, t_env **env)
 
 	i = -1;
 	prv_fd = 0;
-	pid = malloc(sizeof(int) * general.nbr_cmd);
-	while (++i < general.nbr_cmd)
+	pid = malloc(sizeof(int) * g_general.nbr_cmd);
+	while (++i < g_general.nbr_cmd)
 	{
-		if (i < general.nbr_cmd - 1 && pipe(fd) < 0)
+		if (i < g_general.nbr_cmd - 1 && pipe(fd) < 0)
 			return (printf("an error in create pipe\n"), 0);
-		general.sig_flag = 1;
+		g_general.sig_flag = 1;
 		pid[i] = fork();
 		if (pid[i] < 0)
 			return (printf("an error in create process\n"), 0);
 		if (pid[i] == 0)
 		{
 			signal(SIGQUIT, SIG_DFL);
-			if (i < general.nbr_cmd - 1)
+			if (i < g_general.nbr_cmd - 1)
 			{
 				dup2(fd[1], 1);
 				close(fd[1]);
@@ -87,20 +87,20 @@ int execute_multiple_cmd(t_cmd *cmd, t_env **env)
 			if (i > 0)
 				close(prv_fd);
 			prv_fd = fd[0];
-			if (i < general.nbr_cmd - 1)
+			if (i < g_general.nbr_cmd - 1)
 				close(fd[1]);
 			if (cmd[i].redir && cmd[i].redir->type == HEREDOC)
 				close(cmd[i].h_fd[0]);
 		}
 	}
 	i = -1;
-	while (++i < general.nbr_cmd)
-		waitpid(pid[i], &general.exit_status, 0);
+	while (++i < g_general.nbr_cmd)
+		waitpid(pid[i], &g_general.exit_status, 0);
 	free(pid);
-	st = (unsigned char *)&general.exit_status;
+	st = (unsigned char *)&g_general.exit_status;
 	if (st[0])
-		general.exit_status = st[0] + 128;
+		g_general.exit_status = st[0] + 128;
 	else
-		general.exit_status = st[1];
+		g_general.exit_status = st[1];
 	return (1);
 }

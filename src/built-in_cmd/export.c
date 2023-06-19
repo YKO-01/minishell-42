@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:44:27 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 21:09:02 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:12:22 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	ft_export(t_args *args, t_env *env_lst)
 			}
 			else
 			{
-				general.exit_status = 1;
+				g_general.exit_status = 1;
 				ft_printf(2, "minishell: export: '%s': not a valid identifier\n", args->argument);
 			}
 			args = args->next;

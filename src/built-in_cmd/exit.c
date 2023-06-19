@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 18:08:53 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 23:14:12 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:12:22 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ void	ft_exit(t_args **args, t_env **env_lst)
 	else if (size_args_list(*args) > 2 && is_num((*args)->next->argument))
 	{
 		ft_printf(2, "minishell: exit: too many arguments\n");
-		general.exit_status = 1;
+		g_general.exit_status = 1;
 		return ;
 	}
 	if ((*args)->next && (*args)->next->argument)
 	{
-		general.exit_status = ft_atoi((*args)->next->argument);
-		exit(general.exit_status);
+		g_general.exit_status = ft_atoi((*args)->next->argument);
+		exit(g_general.exit_status);
 	}
-	exit(general.exit_status);
+	exit(g_general.exit_status);
 }

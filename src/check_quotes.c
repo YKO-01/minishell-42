@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:06:28 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/17 00:00:33 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:23:51 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ int	next_quote(char *line, int *i, int ascii)
 	return (count);
 }
 
+void	print_quotes_error(void)
+{
+	g_general.exit_status = 258;
+	ft_printf(2, "minishell: unexpected EOF while looking for matching\n");
+}
+
 int	check_quotes(char *line)
 {
 	int	i;
@@ -57,13 +63,13 @@ int	check_quotes(char *line)
 		{
 			i++;
 			if (next_quote(line, &i, 34) == 1)
-				return (general.exit_status = 258 ,ft_printf(2, "minishell: unexpected EOF while looking for matching\n"), 0);
+				return (print_quotes_error(), 0);
 		}
 		else if (line[i] == 39)
 		{
 			i++;
 			if (next_quote(line, &i, 39) == 1)
-				return (general.exit_status = 258, ft_printf(2, "minishell: unexpected EOF while looking for matching\n"), 0);
+				return (print_quotes_error(), 0);
 		}
 		i++;
 	}

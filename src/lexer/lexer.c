@@ -6,13 +6,13 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:10:49 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 17:06:39 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 16:25:04 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/lexer.h"
 
-void	loop_on_input(char *line, t_list **lst)
+void	lexer(char *line, t_list **lst)
 {
 	int	i;
 

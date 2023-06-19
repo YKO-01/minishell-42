@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:59:04 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/15 15:34:02 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:12:22 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ void	ft_pwd(void)
 
 	if (getcwd(pwd, sizeof(pwd)))
 		ft_printf(1, "%s\n", pwd);
-	general.exit_status = 0;
+	g_general.exit_status = 0;
 }
