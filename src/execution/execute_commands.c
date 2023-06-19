@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 13:00:51 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/19 18:53:22 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:59:20 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	execution_commands(t_cmd *cmd)
 		if (!open_files(*cmd))
 		{
 			g_general.exit_status = 1;
-			return;
+			return ;
 		}
 		if (cmd->args->argument)
 			builtin_cmd(cmd->args);
@@ -38,61 +38,76 @@ void	execution_commands(t_cmd *cmd)
 		execute_multiple_cmd(cmd);
 }
 
-int execute_multiple_cmd(t_cmd *cmd)
+void	exec_child_pro(t_cmd *cmd, t_fd file_d, int i)
 {
-	int		i;
-	int		fd[2];
-	int 	prv_fd;
-	int		*pid;
-	int		file;
-	char	*cmd_exec;
-	char	**ar;
-	unsigned char *st;
+	signal(SIGQUIT, SIG_DFL);
+	if (i < g_general.nbr_cmd - 1)
+	{
+		dup2(file_d.fd[1], 1);
+		close(file_d.fd[1]);
+	}
+	if (i > 0)
+	{
+		dup2(file_d.prv_fd, 0);
+		close(file_d.fd[0]);
+		close(file_d.prv_fd);
+	}
+	if (!open_files(*cmd))
+		exit(1);
+	if (cmd->args && cmd->args->argument)
+	{
+		if (builtin_cmd(cmd->args) == 1)
+			execute_cmd(cmd);
+	}
+	exit(0);
+}
 
+int	sequel_execute_cmds(t_cmd *cmd, int *pid)
+{
+	t_fd	file_d;
+	int	i;
+
+	file_d.prv_fd = -1;
+	file_d.fd[1] = -1;
+	file_d.fd[0] = -1;
 	i = -1;
-	prv_fd = 0;
-	pid = malloc(sizeof(int) * g_general.nbr_cmd);
 	while (++i < g_general.nbr_cmd)
 	{
-		if (i < g_general.nbr_cmd - 1 && pipe(fd) < 0)
-			return (printf("an error in create pipe\n"), 0);
 		g_general.sig_flag = 1;
+		if (i < g_general.nbr_cmd - 1 && pipe(file_d.fd) < 0)
+			return (printf("an error in create pipe\n"), 0);
 		pid[i] = fork();
 		if (pid[i] < 0)
 			return (printf("an error in create process\n"), 0);
 		if (pid[i] == 0)
-		{
-			signal(SIGQUIT, SIG_DFL);
-			if (i < g_general.nbr_cmd - 1)
-			{
-				dup2(fd[1], 1);
-				close(fd[1]);
-			}
-			if (i > 0)
-			{
-				dup2(prv_fd, 0);
-				close(fd[0]);
-			}
-			if (!open_files(cmd[i]))
-				exit(1);
-			if (cmd[i].args && cmd[i].args->argument)
-			{
-				if (builtin_cmd(cmd[i].args) == 1)
-					execute_cmd(&cmd[i]);
-			}
-			exit(0);
-		}
+			exec_child_pro(&cmd[i], file_d, i);
 		else
 		{
 			if (i > 0)
-				close(prv_fd);
-			prv_fd = fd[0];
+			{
+				close(file_d.prv_fd);
+				close(file_d.fd[0]);
+			}
+			file_d.prv_fd = file_d.fd[0];
 			if (i < g_general.nbr_cmd - 1)
-				close(fd[1]);
+				close(file_d.fd[1]);
 			if (cmd[i].redir && cmd[i].redir->type == HEREDOC)
 				close(cmd[i].h_fd[0]);
 		}
 	}
+	return (1);
+}
+
+int	execute_multiple_cmd(t_cmd *cmd)
+{
+	int				i;
+	int				*pid;
+	unsigned char	*st;
+
+	pid = malloc(sizeof(int) * g_general.nbr_cmd);
+	if (!pid)
+		return (0);
+	sequel_execute_cmds(cmd, pid);
 	i = -1;
 	while (++i < g_general.nbr_cmd)
 		waitpid(pid[i], &g_general.exit_status, 0);

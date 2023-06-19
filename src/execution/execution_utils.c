@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 16:04:31 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/19 19:11:51 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:57:21 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	builtin_cmd(t_args *args)
 char	*ft_getenv(char *find)
 {
 	t_env	*tmp_env;
-
+	
 	tmp_env = g_general.env;
 	while (tmp_env)
 	{
@@ -98,12 +98,15 @@ char	*ft_getenv(char *find)
 int	change_value_env(char *key, char *new_value)
 {
 	t_env	*tmp_env;
-
+	
 	tmp_env = g_general.env;
 	while (tmp_env)
 	{
 		if (!ft_strncmp(tmp_env->id, key, ft_strlen(key)))
-			return (tmp_env->content = new_value, 1);
+		{
+			free(tmp_env->content);
+			return (tmp_env->content = ft_strdup(new_value), 1);
+		}
 		tmp_env = tmp_env->next;
 	}
 	return (0);
