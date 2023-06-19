@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:33:01 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/19 19:05:32 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:45:23 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	loop_on_input(char *line, t_list **lst)
 				if (!analyzer(*lst))
 				{
 					cmd = fill_struct_cmd(*lst);
-					// clear_lst(*lst);
+					clear_lst(*lst);
 					cmd = expander(cmd);
 					execution_commands(cmd);
-					// clear_cmd(cmd);
+					clear_cmd(cmd);
 				}
 			}
 		}

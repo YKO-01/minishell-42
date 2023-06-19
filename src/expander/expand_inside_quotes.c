@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 16:40:08 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 19:08:27 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:47:42 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,20 @@ char	*expand_inside_double_quotes(char *s, int *pos)
 {
 	int		start;
 	char	*temp;
+	char	*var;
 
 	temp = NULL;
+	var = NULL;
 	(*pos)++;
 	start = *pos;
 	while (s[*pos] && s[*pos] != 34)
 	{
 		if (s[*pos] == '$' && s[*pos + 1] && s[*pos + 1] != 34)
-			temp = join_with_free(temp, handle_dollar_sign(s, pos)); // leaks here
+		{
+			var = handle_dollar_sign(s, pos);
+			temp = join_with_free(temp, var);
+			free(var);
+		}
 		else
 			temp = ft_join_char(temp, s[*pos]);
 		(*pos)++;
