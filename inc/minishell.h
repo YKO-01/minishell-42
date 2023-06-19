@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:18:34 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 17:12:46 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:48:44 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@
 # include "types.h"
 # include "lexer.h"
 # include "parser.h"
-#include "builtin_cmd.h"
-#include "execution.h"
-#include "expander.h"
+# include "builtin_cmd.h"
+# include "execution.h"
+# include "expander.h"
 
 extern t_general	g_general;
 
@@ -60,6 +60,6 @@ void	clear_cmd(t_cmd *cmd);
 t_env	*convert_env_to_list(char **env);
 void	clear_lst(t_list *lst);
 void	clear_env_lst(t_env *env_lst);
-void	handle_signals();
+void	handle_signals(void);
 
 #endif

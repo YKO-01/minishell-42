@@ -6,15 +6,14 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:51:02 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/13 22:09:18 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:47:44 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
-# include <stdlib.h>
-#include "types.h"
+# include "types.h"
 
 t_cmd	*expander(t_cmd *cmd, t_env *env_lst);
 
@@ -23,7 +22,8 @@ t_cmd	*expander(t_cmd *cmd, t_env *env_lst);
 int		split_word_count(char const *s, char *charset);
 char	**ft_split_charset(char const *s, char *charset);
 int		if_should_split(char *var);
-void	replace_var_in_args_list(char *before_var, char *var, t_args **new_args);
+void	replace_var_in_args_list(char *before_var, char *var,
+			t_args **new_args);
 
 /************** env linked list *************/
 

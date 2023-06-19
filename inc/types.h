@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 20:01:06 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 17:12:46 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:49:20 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef enum e_ambiguoius
 	NOT_AMBIGUOUS = 0,
 	IS_AMBIGUOUS,
 	NOTHING
-}	t_ambiguous ;
+}	t_ambiguous;
 
 typedef struct s_data
 {
