@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 16:26:45 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 18:43:08 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:07:42 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*replace_spaces(char *var)
 	return (var);
 }
 
-int	expand_redir_string(t_redir *redir, t_env *env_lst, t_redir **new_redir)
+int	expand_redir_string(t_redir *redir, t_redir **new_redir)
 {
 	int		i;
 	char	*temp;
@@ -47,10 +47,10 @@ int	expand_redir_string(t_redir *redir, t_env *env_lst, t_redir **new_redir)
 			if (redir->file[i] == 39)
 				temp =  join_with_free(temp, expand_inside_single_quotes(redir->file, &i));
 			else if (redir->file[i] == 34)
-				temp = join_with_free(temp, expand_inside_double_quotes(redir->file, &i, env_lst));
+				temp = join_with_free(temp, expand_inside_double_quotes(redir->file, &i));
 			else if (redir->file[i] == '$')
 			{
-				var = handle_dollar_sign(redir->file, &i, env_lst);
+				var = handle_dollar_sign(redir->file, &i);
 				if (!temp && !var[0])
 					is_dollar = 1;
 				var = replace_spaces(var);
@@ -77,7 +77,7 @@ int	expand_redir_string(t_redir *redir, t_env *env_lst, t_redir **new_redir)
 	return (1);
 }
 
-t_redir	*expand_redir(t_redir *redir, t_env *env_lst)
+t_redir	*expand_redir(t_redir *redir)
 {
 	t_redir	*new_redir;
 	t_redir	*temp;
@@ -86,7 +86,7 @@ t_redir	*expand_redir(t_redir *redir, t_env *env_lst)
 	temp = redir;
 	while (temp)
 	{
-		expand_redir_string(temp, env_lst, &new_redir);
+		expand_redir_string(temp, &new_redir);
 		temp = temp->next;
 	}
 	clear_redir_list(redir);

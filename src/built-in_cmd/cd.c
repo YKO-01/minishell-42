@@ -6,14 +6,14 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:12:54 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/19 17:12:22 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:13:50 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../inc/minishell.h"
 
-void	change_dir(t_args *arg, t_env *env)
+void	change_dir(t_args *arg)
 {
 
 	char s[PATH_MAX];
@@ -22,10 +22,10 @@ void	change_dir(t_args *arg, t_env *env)
 
 	if (!arg)
 	{
-		home = ft_getenv(env, "HOME");	
+		home = ft_getenv("HOME");	
 		if (chdir(home) < 0)
 			ft_printf(2, "minishell: cd: HOME not set\n");
-		change_value_env(env, "PWD", home);
+		change_value_env("PWD", home);
 	}
 	else
 	{
@@ -35,6 +35,6 @@ void	change_dir(t_args *arg, t_env *env)
 			g_general.exit_status = 1;
 		}
 		path = getcwd(s, PATH_MAX);
-		change_value_env(env, "PWD", path);
+		change_value_env("PWD", path);
 	}
 }

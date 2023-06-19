@@ -6,11 +6,12 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:45:34 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 17:29:05 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:42:02 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+#include <stdio.h>
 
 t_env	*add_new_env_node(char *id, char *content)
 {
@@ -24,18 +25,18 @@ t_env	*add_new_env_node(char *id, char *content)
 	return (new_env_node);
 }
 
-void	add_env_node_back(t_env **env, t_env *new_env_node)
+void	add_env_node_back(t_env **head, t_env *new_env_node)
 {
 	t_env	*temp;
 
-	if (! new_env_node)
+	if (!new_env_node)
 		return ;
-	else if (!(*env))
+	else if (!(*head))
 	{
-		*env = new_env_node;
+		*head = new_env_node;
 		return ;
 	}
-	temp = *env;
+	temp = *head;
 	while (temp->next)
 		temp = temp->next;
 	temp->next = new_env_node;
@@ -83,15 +84,14 @@ char	*get_env_content(char *env_var)
 t_env	*convert_env_to_list(char **env)
 {
 	int		i;
-	t_env	*env_lst;
 
-	env_lst = NULL;
 	i = 0;
 	while (env[i])
 	{
-		add_env_node_back(&env_lst,
-			add_new_env_node(get_env_id(env[i]), get_env_content(env[i])));
+		add_env_node_back(&g_general.env,
+			add_new_env_node(get_env_id(env[i]),
+				get_env_content(env[i])));
 		i++;
 	}
-	return (env_lst);
+	return (g_general.env);
 }

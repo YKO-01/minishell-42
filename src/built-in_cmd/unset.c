@@ -6,14 +6,14 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 16:46:04 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/14 17:58:38 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:40:01 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include <stdio.h>
 
-void	ft_unset(t_args *args, t_env **env_lst)
+void	ft_unset(t_args *args)
 {
 	t_env	*temp1;
 	t_env	*del;
@@ -22,16 +22,16 @@ void	ft_unset(t_args *args, t_env **env_lst)
 
 	while (args)
 	{
-		tmp_env = *env_lst;
+		tmp_env = g_general.env;
 		while (tmp_env)
 		{
-			if (!ft_strncmp(args->argument, (*env_lst)->id, -1))
+			if (!ft_strncmp(args->argument, g_general.env->id, -1))
 			{
-				del = (*env_lst);
-				if ((*env_lst)->next)
-					(*env_lst) = (*env_lst)->next;
+				del = tmp_env;
+				if (tmp_env->next)
+					tmp_env = tmp_env->next;
 				else
-					(*env_lst) = NULL;
+					tmp_env = NULL;
 				free(del->content);
 				free(del->id);
 				free(del);

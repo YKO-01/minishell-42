@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:01:16 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/19 17:18:24 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:41:12 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	handle_signals();
 	lst = NULL;
-	env_lst = convert_env_to_list(env);
-	minishell(&env_lst, &lst);
-	clear_env_lst(env_lst);
+	g_general.env = NULL;
+	g_general.env = convert_env_to_list(env);
+	minishell(&lst);
+	// clear_env_lst();
 	return (0);
 }

@@ -6,24 +6,27 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:44:27 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 17:12:22 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:30:08 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include <stdio.h>
 
-int	export_new_value(t_env *env, char *key, char *new_value)
+int	export_new_value(char *key, char *new_value)
 {
-	while (env)
+	t_env	*tmp_env;
+
+	tmp_env = g_general.env;
+	while (tmp_env)
 	{
-		if (!ft_strncmp(env->id, key, ft_strlen(key)))
+		if (!ft_strncmp(tmp_env->id, key, ft_strlen(key)))
 		{
 			if (!new_value)
 				return (1);
-			return (env->content = new_value, 1);
+			return (tmp_env->content = new_value, 1);
 		}
-		env = env->next;
+		tmp_env = tmp_env->next;
 	}
 	return (0);
 }
@@ -96,26 +99,26 @@ int	check_var_identifier(char *s)
 	return (1);
 }
 
-void	ft_export(t_args *args, t_env *env_lst)
+void	ft_export(t_args *args)
 {
-	t_env	*temp;
+	t_env	*tmp_env;
 	char	*ptr;
 
-	temp = env_lst;
+	tmp_env = g_general.env;
 	if (!args)
 	{
-		while (temp)
+		while (tmp_env)
 		{
-			printf("declare -x %s", temp->id);
-			if (temp->content)
+			printf("declare -x %s", tmp_env->id);
+			if (tmp_env->content)
 			{
 				printf("=\"");
-				put_new_str(temp->content);
+				put_new_str(tmp_env->content);
 				printf("\"\n");
 			}
 			else
 				printf("\n");
-			temp = temp->next;
+			tmp_env = tmp_env->next;
 		}	
 	}
 	else
@@ -126,17 +129,17 @@ void	ft_export(t_args *args, t_env *env_lst)
 			if (check_var_identifier(id))
 			{
 				char *content = env_content(args->argument);
-				if (!export_new_value(env_lst, id,  content))
+				if (!export_new_value(id,  content))
 				{
 					ptr = ft_strchr(args->argument, '=');
 					if (!ptr)
-						add_env_node_back(&env_lst, add_new_env_node(id, NULL));
+						add_env_node_back(&g_general.env, add_new_env_node(id, NULL));
 					else
 					{
 						if (!ft_strncmp(ptr, "=", ft_strlen(ptr)))
-							add_env_node_back(&env_lst, add_new_env_node(id, ""));
+							add_env_node_back(&g_general.env, add_new_env_node(id, ""));
 						else
-							add_env_node_back(&env_lst, add_new_env_node(id, content));
+							add_env_node_back(&g_general.env, add_new_env_node(id, content));
 					}
 				}
 			}

@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 18:08:53 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 17:12:22 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:23:12 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	is_num(char *s)
 	return (1);
 }
 
-void	ft_exit(t_args **args, t_env **env_lst)
+void	ft_exit(t_args **args)
 {
 	if ((size_args_list(*args) == 2 || size_args_list(*args) > 2) && !is_num((*args)->next->argument))
 	{

@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:18:34 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 17:48:44 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:05:11 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		check_pipes(char *str, char c);
 
 /************ main function ********/
 
-void	minishell(t_env **env, t_list **lst);
+void	minishell(t_list **lst);
 
 /************ UTILS *************/
 
@@ -59,7 +59,7 @@ void	free_2d_array(char **s);
 void	clear_cmd(t_cmd *cmd);
 t_env	*convert_env_to_list(char **env);
 void	clear_lst(t_list *lst);
-void	clear_env_lst(t_env *env_lst);
+void	clear_env_lst(void);
 void	handle_signals(void);
 
 #endif

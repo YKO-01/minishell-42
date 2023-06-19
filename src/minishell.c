@@ -6,13 +6,11 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:33:01 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/19 17:18:43 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:05:32 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-// t_general	g_general;
 
 void	handle_sigint(int sig)
 {
@@ -32,7 +30,7 @@ void	handle_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	loop_on_input(char *line, t_list **lst, t_env **env)
+void	loop_on_input(char *line, t_list **lst)
 {
 	t_cmd	*cmd;
 
@@ -45,18 +43,18 @@ void	loop_on_input(char *line, t_list **lst, t_env **env)
 			{
 				if (!analyzer(*lst))
 				{
-					cmd = fill_struct_cmd(*lst, *env);
-					clear_lst(*lst);
-					cmd = expander(cmd, *env);
-					execution_commands(cmd, env);
-					clear_cmd(cmd);
+					cmd = fill_struct_cmd(*lst);
+					// clear_lst(*lst);
+					cmd = expander(cmd);
+					execution_commands(cmd);
+					// clear_cmd(cmd);
 				}
 			}
 		}
 	}
 }
 
-void	minishell(t_env **env, t_list **lst)
+void	minishell(t_list **lst)
 {
 	char	*line;
 
@@ -65,7 +63,7 @@ void	minishell(t_env **env, t_list **lst)
 		g_general.sig_flag = 0;
 		*lst = NULL;
 		line = display_prompt();
-		loop_on_input(line, lst, env);
+		loop_on_input(line, lst);
 		if (line)
 			free(line);
 	}

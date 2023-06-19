@@ -6,14 +6,14 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 13:00:51 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/19 17:12:22 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:53:22 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include <stdio.h>
 
-void	execution_commands(t_cmd *cmd, t_env **env)
+void	execution_commands(t_cmd *cmd)
 {
 	int	save_fd[2];
 
@@ -28,17 +28,17 @@ void	execution_commands(t_cmd *cmd, t_env **env)
 			return;
 		}
 		if (cmd->args->argument)
-			builtin_cmd(cmd->args, env);
+			builtin_cmd(cmd->args);
 		dup2(save_fd[0], 0);
 		dup2(save_fd[1], 1);
 		close(save_fd[0]);
 		close(save_fd[1]);
 	}
 	else
-		execute_multiple_cmd(cmd, env);
+		execute_multiple_cmd(cmd);
 }
 
-int execute_multiple_cmd(t_cmd *cmd, t_env **env)
+int execute_multiple_cmd(t_cmd *cmd)
 {
 	int		i;
 	int		fd[2];
@@ -77,8 +77,8 @@ int execute_multiple_cmd(t_cmd *cmd, t_env **env)
 				exit(1);
 			if (cmd[i].args && cmd[i].args->argument)
 			{
-				if (builtin_cmd(cmd[i].args, env) == 1)
-					execute_cmd(&cmd[i], env);
+				if (builtin_cmd(cmd[i].args) == 1)
+					execute_cmd(&cmd[i]);
 			}
 			exit(0);
 		}

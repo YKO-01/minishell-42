@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 21:33:29 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 17:12:22 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:58:09 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ void	skip_dollars(char *s, int *pos)
 		(*pos)--;
 }
 
-char	*handle_dollar_sign(char *s, int *pos, t_env *env_lst)
+char	*handle_dollar_sign(char *s, int *pos)
 {
 	char	*temp;
 	int		start;
 	int		i;
+	t_env	*tmp_env;
 
+	tmp_env = g_general.env;
 	i = *pos;
 	temp = NULL;
 	(*pos)++;
@@ -57,13 +59,13 @@ char	*handle_dollar_sign(char *s, int *pos, t_env *env_lst)
 		while (ft_isalnum(s[*pos]) || s[*pos] == '_')
 			(*pos)++;
 		temp = ft_substr(s, start, *pos);
-		while (env_lst)
+		while (tmp_env)
 		{
-			if (!ft_strncmp(temp, env_lst->id, ft_strlen(temp)))
-				return ((*pos)--, free(temp), ft_strdup(env_lst->content));
-			env_lst = env_lst->next;
+			if (!ft_strncmp(temp, tmp_env->id, ft_strlen(temp)))
+				return ((*pos)--, free(temp), ft_strdup(tmp_env->content));
+			tmp_env = tmp_env->next;
 		}
-		if (!env_lst)
+		if (!tmp_env)
 		{
 			ft_bzero(temp, ft_strlen(temp));
 			return ((*pos)--, temp);

@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:48:21 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 17:28:13 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:06:29 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,15 @@ void	clear_cmd(t_cmd *cmd)
 	free(cmd);
 }
 
-void	clear_env_lst(t_env *env_lst)
+void	clear_env_lst(void)
 {
-	t_env	*cur;
+	t_env	*tmp_env;
 
-	if (!env_lst)
-		return ;
-	while (env_lst)
+	tmp_env = g_general.env;
+	while (tmp_env)
 	{
-		cur = env_lst;
-		env_lst = env_lst->next;
-		free(cur->id);
-		free(cur->content);
-		free(cur);
+		free(tmp_env->id);
+		free(tmp_env->content);
+		tmp_env = tmp_env->next;
 	}
 }

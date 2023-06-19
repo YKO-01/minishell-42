@@ -6,27 +6,27 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 16:04:31 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 23:15:00 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:11:51 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include <stdio.h>
 
-char	**dup_lstenv(t_env *env)
+char	**dup_lstenv(void)
 {
 	char	**new_env;
 	int	i;
 	t_env	*tmp;
 
 	i = 0;
-	if (!env)
+	if (!g_general.env)
 		return (NULL);
-	new_env = malloc(sizeof(char *) * (env_list_size(env) + 1));
+	new_env = malloc(sizeof(char *) * (env_list_size(g_general.env) + 1));
 	if (!new_env)
 		return (NULL);
 	i = 0;
-	tmp = env;
+	tmp = g_general.env;
 	while (tmp)
 	{
 		new_env[i] = ft_strjoin(tmp->id, "=");
@@ -62,43 +62,49 @@ char	**get_new_arg(t_cmd *cmd)
 	return (new);
 }
 
-int	builtin_cmd(t_args *args, t_env **env)
+int	builtin_cmd(t_args *args)
 {
 	if (!ft_strncmp(args->argument, "cd", -1))
-		return (change_dir(args->next, *env), 0);
+		return (change_dir(args->next), 0);
 	if (!ft_strncmp(args->argument, "pwd", -1))
 		return (ft_pwd(), 0);
 	if (!ft_strncmp(args->argument, "export", -1))
-		return (ft_export(args->next ,*env), 0);
+		return (ft_export(args->next), 0);
 	if (!ft_strncmp(args->argument, "echo", -1))
 		return (ft_echo(args->next), 0);
 	if (!ft_strncmp(args->argument, "env", -1))
-		return (ft_env(*env, args->next), 0);
+		return (ft_env(args->next), 0);
 	if (!ft_strncmp(args->argument, "unset", -1))
-		return (ft_unset(args->next, env), 0);
+		return (ft_unset(args->next), 0);
 	if (!ft_strncmp(args->argument, "exit", -1))
-		return (ft_exit(&args, env), 0);
+		return (ft_exit(&args), 0);
 	return (1);
 }
 
-char	*ft_getenv(t_env *env, char *find)
+char	*ft_getenv(char *find)
 {
-	while (env)
+	t_env	*tmp_env;
+
+	tmp_env = g_general.env;
+	while (tmp_env)
 	{
-		if (!ft_strncmp(env->id, find, ft_strlen(find)))	
-			return (env->content);
-		env = env->next;
+		if (!ft_strncmp(tmp_env->id, find, ft_strlen(find)))	
+			return (tmp_env->content);
+		tmp_env = tmp_env->next;
 	}
 	return (0);
 }
 
-int	change_value_env(t_env *env, char *key, char *new_value)
+int	change_value_env(char *key, char *new_value)
 {
-	while (env)
+	t_env	*tmp_env;
+
+	tmp_env = g_general.env;
+	while (tmp_env)
 	{
-		if (!ft_strncmp(env->id, key, ft_strlen(key)))
-			return (env->content = new_value, 1);
-		env = env->next;
+		if (!ft_strncmp(tmp_env->id, key, ft_strlen(key)))
+			return (tmp_env->content = new_value, 1);
+		tmp_env = tmp_env->next;
 	}
 	return (0);
 }

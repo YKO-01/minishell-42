@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:03:24 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 22:48:48 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:12:54 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		open_files(t_cmd cmd)
 	return (1);
 }
 
-void    execute_cmd(t_cmd *cmd, t_env **env)
+void    execute_cmd(t_cmd *cmd)
 {
 	char	*cmd_exec;
 	char	**ar;
@@ -68,7 +68,7 @@ void    execute_cmd(t_cmd *cmd, t_env **env)
 
 	if (cmd->args)
 	{
-		new_env = dup_lstenv(*env);
+		new_env = dup_lstenv();
 		if (!new_env)
 		{
 			ft_printf(2, "minishell: %s: No such file or directory\n", cmd->args->argument);

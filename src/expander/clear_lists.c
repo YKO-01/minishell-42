@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 21:20:28 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 16:07:14 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:34:26 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	clear_args_list(t_args *args)
 {
 	t_args	*tmp;
-	
+
 	while (args)
 	{
 		tmp = args;
@@ -28,7 +28,7 @@ void	clear_args_list(t_args *args)
 void	clear_redir_list(t_redir *redir)
 {
 	t_redir	*tmp;
-	
+
 	while (redir)
 	{
 		tmp = redir;

@@ -6,20 +6,19 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 13:10:14 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/14 17:58:46 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:37:34 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include <stdio.h>
 
-void    ft_env(t_env *env, t_args *args)
+void	ft_env(t_args *args)
 {
 	t_env	*tmp;
 
-	if (!env)
+	if (!g_general.env)
 		return ;
-	tmp = env;
+	tmp = g_general.env;
 	if (!args)
 	{
 		while (tmp)
