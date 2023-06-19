@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:58:28 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 17:14:56 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:31:03 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,34 +61,56 @@ char	*expand_line_read(char *line, t_env *env_lst)
 {
 	char	*new_line;
 	int		i;
-	
+	char	*expand;
+
 	i = 0;
 	new_line = NULL;
 	while (line[i])
 	{
 		if (line[i] == '$')
 		{
-			char *j = handle_dollar_sign(line, &i, env_lst);
-			new_line = join_with_free(new_line, j);
-			free(j);
+			expand = handle_dollar_sign(line, &i, env_lst);
+			new_line = join_with_free(new_line, expand);
+			free(expand);
 		}
 		else
 			new_line = ft_join_char(new_line, line[i]);
 		i++;
 	}
 	free(line);
-	// while (1);
 	return (new_line);
 }
 
-void	read_herdoc(t_cmd *cmd, t_env *env_lst)
+void	read_heredoc(char *delimiter, int if_quoted, int fd, t_env *env_lst)
+{
+	char	*line;
+
+	while (1)
+	{
+		if (isatty(0))
+			ft_printf(1, "> ");
+		line = get_next_line(0);
+		if (line)
+			line = trim_with_free(line, "\n");
+		// line = readline("> ");
+		if (!line || !ft_strncmp(delimiter, line, -1))
+			break ;
+		if (!if_quoted)
+			line = expand_line_read(line, env_lst);
+		ft_putendl_fd(line, fd);
+		free(line);
+	}
+	free(line);
+}
+
+void	ft_heredoc(t_cmd *cmd, t_env *env_lst)
 {
 	char	*line;
 	char	*expand_del;
 	int		if_quoted;
-	int 	fd;
+	int		fd;
 	t_redir	*tmp;
-	
+
 	tmp = cmd->redir;
 	while (tmp)
 	{
@@ -97,23 +119,7 @@ void	read_herdoc(t_cmd *cmd, t_env *env_lst)
 			if_quoted = check_if_quoted(tmp->file);
 			expand_del = ft_remove_quotes(tmp->file);
 			pipe(cmd->h_fd);
-			while (1)
-			{
-				if (isatty(0))
-					ft_printf(1, "> ");
-				line = get_next_line(0);
-				if (line)
-					line = trim_with_free(line, "\n");
-				// line = readline("> ");
-				if (!line || !ft_strncmp(expand_del, line, -1))
-					break;
-				if (!if_quoted)
-					line = expand_line_read(line, env_lst);
-				ft_putendl_fd(line, cmd->h_fd[1]);
-				free(line);
-			}
-			if (line)
-				free(line);
+			read_heredoc(expand_del, if_quoted, cmd->h_fd[1], env_lst);
 			free(expand_del);
 			close(cmd->h_fd[1]);
 		}
