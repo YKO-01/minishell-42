@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 18:08:53 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 19:23:12 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:48:10 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ int	is_num(char *s)
 
 void	ft_exit(t_args **args)
 {
-	if ((size_args_list(*args) == 2 || size_args_list(*args) > 2) && !is_num((*args)->next->argument))
+	if ((size_args_list(*args) == 2 || size_args_list(*args) > 2)
+		&& !is_num((*args)->next->argument))
 	{
-		ft_printf(2, "minishell: exit: %s: numeric argument required\n", (*args)->next->argument);
+		ft_printf(2, "minishell: exit: %s: numeric argument required\n",
+			(*args)->next->argument);
 		exit(255);
 	}
 	else if (size_args_list(*args) > 2 && is_num((*args)->next->argument))

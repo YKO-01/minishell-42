@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:50:25 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/19 19:10:25 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 23:33:43 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ void	ft_env(t_args *args);
 void	ft_unset(t_args *args);
 void	ft_exit(t_args **args);
 
-/************** BUILTIN UTILS ************/
+/************** EXPORT UTILS ************/
+
+char	*env_id(char *var);
+char	*env_content(char *var);
+void	put_new_str(char *s);
 
 #endif

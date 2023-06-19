@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 16:04:31 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/19 19:57:21 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:26:02 by ayakoubi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include <stdio.h>
 
 char	**dup_lstenv(void)
 {
 	char	**new_env;
-	int	i;
+	int		i;
 	t_env	*tmp;
 
 	i = 0;
@@ -40,11 +39,11 @@ char	**dup_lstenv(void)
 
 char	**get_new_arg(t_cmd *cmd)
 {
-	char **new;
-	t_args *tmp;
-	int	i;
-	int len;
-	
+	char	**new;
+	t_args	*tmp;
+	int		i;
+	int		len;
+
 	i = -1;
 	len = 0;
 	new = malloc(sizeof(char *) * (args_list_size(cmd->args) + 1));
@@ -84,11 +83,11 @@ int	builtin_cmd(t_args *args)
 char	*ft_getenv(char *find)
 {
 	t_env	*tmp_env;
-	
+
 	tmp_env = g_general.env;
 	while (tmp_env)
 	{
-		if (!ft_strncmp(tmp_env->id, find, ft_strlen(find)))	
+		if (!ft_strncmp(tmp_env->id, find, ft_strlen(find)))
 			return (tmp_env->content);
 		tmp_env = tmp_env->next;
 	}
@@ -98,7 +97,7 @@ char	*ft_getenv(char *find)
 int	change_value_env(char *key, char *new_value)
 {
 	t_env	*tmp_env;
-	
+
 	tmp_env = g_general.env;
 	while (tmp_env)
 	{

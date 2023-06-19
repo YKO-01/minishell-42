@@ -6,7 +6,7 @@
 /*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 13:10:14 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 19:37:34 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:48:56 by osajide          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ void	ft_env(t_args *args)
 		while (tmp)
 		{
 			if (tmp->content)
-				printf("%s=%s\n",tmp->id, tmp->content);
+				printf("%s=%s\n", tmp->id, tmp->content);
 			tmp = tmp->next;
 		}	
 	}
 	else
-		ft_printf(2, "minishell: %s: No such file or directory\n", args->argument);
+		ft_printf(2, "minishell: %s: No such file or directory\n",
+			args->argument);
 }

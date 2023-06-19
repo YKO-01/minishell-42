@@ -6,7 +6,7 @@
 #    By: osajide <osajide@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/15 11:24:45 by ayakoubi          #+#    #+#              #
-#    Updated: 2023/06/19 15:49:22 by osajide          ###   ########.fr        #
+#    Updated: 2023/06/19 23:35:19 by osajide          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ EXECUTDIR	=	execution
 SRCMAIN		=	minishell main prompt check_quotes minishell_utils convert_to_env_lst \
 				clear_lists
 
-BUILTSRC	:=	cd echo pwd export env unset exit
+BUILTSRC	:=	cd echo pwd export export_utils env unset exit
 
 LEXERSRC	:=	lexer tokenize tokenize_dollar_pipe tokenize_redirection analyzer \
 				utils

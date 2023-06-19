@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 19:02:45 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/18 15:34:02 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:35:08 by ayakoubi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,35 @@ char	*check_path(char *cmd, char *path)
 	return (free_2d_array(new_path), NULL);
 }
 
+void	print_error(char *str, int flag)
+{
+	if (flag == 1)
+		ft_printf(2, "minishell: %s: No such file or directory\n", str);
+	else if (flag == 2)
+		ft_printf(2, "minishell: %s: Permition denied\n", str);
+}
+
 char	*get_path_cmd(t_cmd *cmd, char **env)
 {
-	char *path_cmd;
+	char	*path_cmd;
 	char	*path;
-	
+
 	path_cmd = get_path(env);
 	if (!path_cmd)
 	{
 		if (access(cmd->args->argument, F_OK))
-			return (ft_printf(2, "minishell: %s: No such file or directory\n", cmd->args->argument), NULL);
+			return (print_error(cmd->args->argument, 1), NULL);
 		if (access(cmd->args->argument, X_OK))
-			return (ft_printf(2, "minishell: %s: Permition denied\n", cmd->args->argument), NULL);
+			return (print_error(cmd->args->argument, 2), NULL);
 		else
-			return(cmd->args->argument);
+			return (cmd->args->argument);
 	}
 	if (ft_strchr(cmd->args->argument, '/'))
 	{
 		if (access(cmd->args->argument, F_OK))
-			return (ft_printf(2, "minishell: %s: No such file or directory\n", cmd->args->argument), NULL);
+			return (print_error(cmd->args->argument, 1), NULL);
 		if (access(cmd->args->argument, X_OK))
-			return (ft_printf(2, "minishell: %s: Permition denied\n", cmd->args->argument), NULL);
+			return (print_error(cmd->args->argument, 2), NULL);
 	}
 	path = check_path(cmd->args->argument, path_cmd);
 	return (path);

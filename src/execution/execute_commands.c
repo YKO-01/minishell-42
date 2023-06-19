@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 13:00:51 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/19 19:59:20 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 23:27:21 by ayakoubi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include <stdio.h>
 
 void	execution_commands(t_cmd *cmd)
 {
@@ -38,19 +37,18 @@ void	execution_commands(t_cmd *cmd)
 		execute_multiple_cmd(cmd);
 }
 
-void	exec_child_pro(t_cmd *cmd, t_fd file_d, int i)
+void	exec_child_pro(t_cmd *cmd, t_fd *file_d, int i)
 {
 	signal(SIGQUIT, SIG_DFL);
 	if (i < g_general.nbr_cmd - 1)
 	{
-		dup2(file_d.fd[1], 1);
-		close(file_d.fd[1]);
+		dup2(file_d->fd[1], 1);
+		close(file_d->fd[1]);
 	}
 	if (i > 0)
 	{
-		dup2(file_d.prv_fd, 0);
-		close(file_d.fd[0]);
-		close(file_d.prv_fd);
+		dup2(file_d->prv_fd, 0);
+		close(file_d->prv_fd);
 	}
 	if (!open_files(*cmd))
 		exit(1);
@@ -62,10 +60,21 @@ void	exec_child_pro(t_cmd *cmd, t_fd file_d, int i)
 	exit(0);
 }
 
-int	sequel_execute_cmds(t_cmd *cmd, int *pid)
+void	close_file_parent(t_cmd *cmd, t_fd *file_d, int i)
+{
+	if (i > 0)
+		close(file_d->prv_fd);
+	file_d->prv_fd = file_d->fd[0];
+	if (i < g_general.nbr_cmd - 1)
+		close(file_d->fd[1]);
+	if (cmd->redir && cmd->redir->type == HEREDOC)
+		close(cmd->h_fd[0]);
+}
+
+int	loop_execute_cmd(t_cmd *cmd, int *pid)
 {
 	t_fd	file_d;
-	int	i;
+	int		i;
 
 	file_d.prv_fd = -1;
 	file_d.fd[1] = -1;
@@ -80,20 +89,9 @@ int	sequel_execute_cmds(t_cmd *cmd, int *pid)
 		if (pid[i] < 0)
 			return (printf("an error in create process\n"), 0);
 		if (pid[i] == 0)
-			exec_child_pro(&cmd[i], file_d, i);
+			exec_child_pro(&cmd[i], &file_d, i);
 		else
-		{
-			if (i > 0)
-			{
-				close(file_d.prv_fd);
-				close(file_d.fd[0]);
-			}
-			file_d.prv_fd = file_d.fd[0];
-			if (i < g_general.nbr_cmd - 1)
-				close(file_d.fd[1]);
-			if (cmd[i].redir && cmd[i].redir->type == HEREDOC)
-				close(cmd[i].h_fd[0]);
-		}
+			close_file_parent(&cmd[i], &file_d, i);
 	}
 	return (1);
 }
@@ -107,7 +105,7 @@ int	execute_multiple_cmd(t_cmd *cmd)
 	pid = malloc(sizeof(int) * g_general.nbr_cmd);
 	if (!pid)
 		return (0);
-	sequel_execute_cmds(cmd, pid);
+	loop_execute_cmd(cmd, pid);
 	i = -1;
 	while (++i < g_general.nbr_cmd)
 		waitpid(pid[i], &g_general.exit_status, 0);

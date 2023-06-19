@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:05:17 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/18 19:38:21 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:45:35 by ayakoubi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	env_list_size(t_env *env)
 	return (size);
 }
 
-int		is_builtin(t_args *args)
+int	is_builtin(t_args *args)
 {
 	if (args->argument)
 	{
