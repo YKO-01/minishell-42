@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:58:28 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 18:56:46 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/20 11:03:33 by ayakoubi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,15 @@ char	*expand_line_read(char *line)
 void	read_heredoc(char *delimiter, int if_quoted, int fd)
 {
 	char	*line;
+	int		in_fd;
 
+	in_fd = dup(0);
+	g_general.hrdc_fd = in_fd;
 	while (1)
 	{
 		if (isatty(0))
 			ft_printf(1, "> ");
-		line = get_next_line(0);
+		line = get_next_line(in_fd);
 		if (line)
 			line = trim_with_free(line, "\n");
 		// line = readline("> ");
@@ -100,6 +103,9 @@ void	read_heredoc(char *delimiter, int if_quoted, int fd)
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
+	dup2(in_fd, 0);
+	close(in_fd);
+	close(g_general.hrdc_fd);
 	free(line);
 }
 
@@ -114,6 +120,8 @@ void	ft_heredoc(t_cmd *cmd)
 	tmp = cmd->redir;
 	while (tmp)
 	{
+		if (g_general.hrdc_fd == -2)
+			break;
 		if (tmp->type == HEREDOC)
 		{
 			if_quoted = check_if_quoted(tmp->file);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:33:01 by ayakoubi          #+#    #+#             */
-/*   Updated: 2023/06/19 19:45:23 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/20 11:22:49 by ayakoubi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,14 @@
 void	handle_sigint(int sig)
 {
 	ft_printf(1, "\n");
-	if (!g_general.sig_flag)
+	if (g_general.hrdc_fd >= 0)
+	{
+		close(g_general.hrdc_fd);
+		g_general.hrdc_fd = -2;
+		g_general.exit_status = 130;
+		return ;
+	}
+	else if (!g_general.sig_flag)
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -45,9 +52,12 @@ void	loop_on_input(char *line, t_list **lst)
 				{
 					cmd = fill_struct_cmd(*lst);
 					clear_lst(*lst);
-					cmd = expander(cmd);
-					execution_commands(cmd);
-					clear_cmd(cmd);
+					if (g_general.hrdc_fd != -2)
+					{
+						cmd = expander(cmd);
+						execution_commands(cmd);
+						clear_cmd(cmd);
+					}
 				}
 			}
 		}
@@ -57,9 +67,9 @@ void	loop_on_input(char *line, t_list **lst)
 void	minishell(t_list **lst)
 {
 	char	*line;
-
 	while (1)
 	{
+		g_general.hrdc_fd = -1;
 		g_general.sig_flag = 0;
 		*lst = NULL;
 		line = display_prompt();

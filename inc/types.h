@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: osajide <osajide@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayakoubi <ayakoubi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 20:01:06 by osajide           #+#    #+#             */
-/*   Updated: 2023/06/19 20:01:01 by osajide          ###   ########.fr       */
+/*   Updated: 2023/06/20 09:39:20 by ayakoubi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_g_general
 	int		nbr_cmd;
 	int		sig_flag;
 	int		exit_status;
+	int		hrdc_fd;
 }	t_general;
 
 typedef struct s_fd
